@@ -1,24 +1,65 @@
 import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+const container = document.querySelector<HTMLDivElement>('#app');
+const canvas = document.createElement('canvas');
+canvas.width = 720;
+canvas.height = 540;
+container?.appendChild(canvas);
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+const ctx = canvas.getContext('2d');
+
+const UNIT_SIZE = 20
+
+function toPx(units: number): number {
+  return units * UNIT_SIZE
+}
+
+function drawARectangle() {
+  if (!ctx) return;
+  ctx.beginPath();
+  ctx.fillStyle = 'blue';
+  ctx.fillRect(toPx(18), toPx(14), toPx(1), toPx(1));
+}
+
+function drawBorderAroundCanvas() {
+  if (!ctx || !canvas) return;
+  ctx.beginPath();
+  ctx.strokeStyle = 'black';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(0, 0, canvas.width, canvas.height);
+}
+
+
+function gameLoop() {
+  drawBackground();
+  drawBorderAroundCanvas();
+  drawARectangle();
+  requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
+
+addEventListener('keydown', (event) => {
+  switch (event.key) {
+    case 'w':
+      console.log('Move up');
+      break;
+    case 'a':
+      console.log('Move left');
+      break;
+    case 's':
+      console.log('Move down');
+      break;
+    case 'd':
+      console.log('Move right');
+      break;
+  }
+})
+
+function drawBackground() {
+  if (!ctx) return;
+  ctx.fillStyle = 'lightgrey';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+
