@@ -14,11 +14,18 @@ function toPx(units: number): number {
   return units * UNIT_SIZE
 }
 
+const player = {
+  x: 18,
+  y: 14,
+  width: 1,
+  height: 1
+}
+
 function drawARectangle() {
   if (!ctx) return;
   ctx.beginPath();
   ctx.fillStyle = 'blue';
-  ctx.fillRect(toPx(18), toPx(14), toPx(1), toPx(1));
+  ctx.fillRect(toPx(player.x), toPx(player.y), toPx(player.width), toPx(player.height));
 }
 
 function drawBorderAroundCanvas() {
@@ -43,15 +50,19 @@ addEventListener('keydown', (event) => {
   switch (event.key) {
     case 'w':
       console.log('Move up');
+      player.y -= 1;
       break;
     case 'a':
       console.log('Move left');
+      player.x -= 1;
       break;
     case 's':
       console.log('Move down');
+      player.y += 1;
       break;
     case 'd':
       console.log('Move right');
+      player.x += 1;
       break;
   }
 })
